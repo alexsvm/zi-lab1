@@ -142,7 +142,6 @@ namespace WindowsFormsApp1
 
         private void button1_Click(object sender, EventArgs e)
         {
-            textBox2.Text = GetNOD(Decimal.ToInt32(edA.Value), Decimal.ToInt32(edK.Value)).ToString();
         }
 
         private void btnInit_Click(object sender, EventArgs e)

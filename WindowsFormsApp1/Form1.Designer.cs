@@ -37,7 +37,6 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.edK = new System.Windows.Forms.NumericUpDown();
-            this.button1 = new System.Windows.Forms.Button();
             this.edAlphabet = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.lblM = new System.Windows.Forms.Label();
@@ -138,19 +137,9 @@
             0,
             0});
             // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(589, 167);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(102, 23);
-            this.button1.TabIndex = 9;
-            this.button1.Text = "NOD";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
             // edAlphabet
             // 
-            this.edAlphabet.Location = new System.Drawing.Point(21, 273);
+            this.edAlphabet.Location = new System.Drawing.Point(12, 154);
             this.edAlphabet.Name = "edAlphabet";
             this.edAlphabet.Size = new System.Drawing.Size(495, 20);
             this.edAlphabet.TabIndex = 10;
@@ -160,7 +149,7 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label3.Location = new System.Drawing.Point(18, 257);
+            this.label3.Location = new System.Drawing.Point(9, 138);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(62, 13);
             this.label3.TabIndex = 11;
@@ -170,7 +159,7 @@
             // 
             this.lblM.AutoSize = true;
             this.lblM.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.lblM.Location = new System.Drawing.Point(18, 296);
+            this.lblM.Location = new System.Drawing.Point(9, 177);
             this.lblM.Name = "lblM";
             this.lblM.Size = new System.Drawing.Size(46, 13);
             this.lblM.TabIndex = 12;
@@ -217,7 +206,6 @@
             this.Controls.Add(this.lblM);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.edAlphabet);
-            this.Controls.Add(this.button1);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.edK);
             this.Controls.Add(this.label1);
@@ -247,7 +235,6 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.NumericUpDown edK;
-        private System.Windows.Forms.Button button1;
         private System.Windows.Forms.TextBox edAlphabet;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label lblM;

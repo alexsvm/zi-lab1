@@ -222,13 +222,15 @@ namespace WindowsFormsApp1
         private void btnEncrypt_Click(object sender, EventArgs e)
         {
             //textBox2.Text = EncodeASSC(textBox1.Text);
-            textBox2.Text = EncodeCTSCh(textBox1.Text, "ПАР");
+            //textBox2.Text = EncodeCTSCh(textBox1.Text, "ПАР");
+            textBox2.Text = EncodeCTSCh(EncodeASSC(textBox1.Text), edASSCkey.Text);
         }
 
         private void btnDecrypt_Click(object sender, EventArgs e)
         {
             //textBox2.Text = DecodeASSC(textBox1.Text);
-            textBox2.Text = DecodeCTSCh(textBox1.Text, "ПАР");
+            //textBox2.Text = DecodeCTSCh(textBox1.Text, "ПАР");
+            textBox2.Text = DecodeASSC(DecodeCTSCh(textBox1.Text, edASSCkey.Text));
         }
 
         private void btnInit_Click(object sender, EventArgs e)

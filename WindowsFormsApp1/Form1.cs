@@ -80,14 +80,14 @@ namespace WindowsFormsApp1
             SubstTable = new int[M];
             for (int j = 0; j < M; j++) // I = (А∙J+K) mod M
                 SubstTable[j] = (A * j + K) % M;
-            // Отобразим таблицу в логе:
+#if DEBUG // Отобразим таблицу в логе:
             textLog.Text += "таблица кодов для аффинных подстановок при A, K, M" + Environment.NewLine;
             for (int j = 0; j < M; j++)
                 textLog.Text += string.Format("{0,2}", j) + "|";
             textLog.Text += Environment.NewLine;
             for (int j = 0; j < M; j++)
                 textLog.Text += string.Format("{0,2}", SubstTable[j]) + "|";
-            //
+#endif
             // Инициализируем словарь символов для афинных подстановок
             EnCodingTable = new Dictionary<char, char>();
             DeCodingTable = new Dictionary<char, char>();
@@ -96,52 +96,139 @@ namespace WindowsFormsApp1
                 EnCodingTable.Add(Alphabet[j], Alphabet[SubstTable[j]]);
                 DeCodingTable.Add(Alphabet[SubstTable[j]], Alphabet[j]);
             }
-            // Log
+#if DEBUG // Log
             textLog.Text += Environment.NewLine + "словарь символов для афинных подстановок" + Environment.NewLine;
             foreach (var kvp in EnCodingTable)
                 textLog.Text += string.Format("('{0}'-'{1}') ", kvp.Key, kvp.Value);
+#endif
         }
 
-        private string EncodeASSC(string str)
+        private string EncodeASSC(string str) // Кодирование
         {
             string res = "";
             foreach (char c in str)
             {
-                // Проверить, есть симвоол в алфавите!
-                if (!EnCodingTable.ContainsKey(c))
+                if (!EnCodingTable.ContainsKey(c)) // Проверить, есть симвоол в алфавите!
                     return "";
-                // Перекодировать символ и добавить в результат!
-                res += EnCodingTable[c];
+                res += EnCodingTable[c]; // Перекодировать символ и добавить в результат!
             }
             return res;
         }
 
-        private string DecodeASSC(string str)
+        private string DecodeASSC(string str) // Декодирование
         {
             string res = "";
             foreach (char c in str)
             {
-                // Проверить, есть симвоол в алфавите!
-                if (!DeCodingTable.ContainsKey(c))
+                if (!DeCodingTable.ContainsKey(c)) // Проверить, есть символ в алфавите!
                     return "";
-                // Перекодировать символ и добавить в результат!
-                 res += DeCodingTable[c];
+                res += DeCodingTable[c]; // Перекодировать символ и добавить в результат!
             }
+            return res;
+        }
+
+        // Кодирование по методу шифрующих таблиц с одиночной перестановкой по ключу
+        private string EncodeCTSCh(string str, string pass) 
+        {
+            int pass_len = pass.Length; // Длина кодовой строки
+            int R = str.Length / pass_len + 1;  // Кол-во строк таблицы
+            int S = pass_len;                   // Кол-во столбцов таблицы
+            char[,] ctable = new char[R, S]; // Таблица для перекодировки с исходной строкой
+            Dictionary<char, int> key = new Dictionary<char, int>();
+            // Инициализируем словарь перестановки по ключу:
+            for (int i = 0; i < pass_len; i++)
+                key[pass[i]] = i;
+            var key_char_list = key.Keys.ToList(); // Получаем список символов в ключевой строке
+            key_char_list.Sort(); // и сортируем его
+#if DEBUG // Log--->
+            foreach (var ch in key_char_list)
+                textLog.Text += ch + "(" + key[ch] + ") ";
+            textLog.Text += Environment.NewLine;
+#endif// <---
+            int idx;
+            // Заполняем таблицу с исходным текстом поколоночно
+            for (int j = 0; j < S; j ++)
+                for(int i = 0; i < R; i++)
+                {
+                    idx = j * R + i;
+                    if (idx < str.Length)
+                        ctable[i, j] = str[idx];
+                    else
+                        //ctable[i, j] = ' ';
+                        continue;
+                }
+#if DEBUG// Log--->
+            for (int i = 0; i < R; i++)
+            {
+                for (int j = 0; j < S; j++)
+                    textLog.Text += ctable[i, j] + "|";
+                textLog.Text += Environment.NewLine;
+            }
+#endif // <--
+            string res = "";
+            // Теперь считывем закодированное сообщение построчно в порядке колонок отсортированного ключа:
+            for (int i = 0; i < R; i++)
+                foreach (var ch in key_char_list)
+                    res += ctable[i, key[ch]];
+            return res;
+        }
+
+        // Декодирование по методу шифрующих таблиц с одиночной перестановкой по ключу
+        private string DecodeCTSCh(string str, string pass)
+        {
+            int pass_len = pass.Length; // Длина кодовой строки
+            int R = str.Length / pass_len + 1;  // Кол-во строк таблицы
+            int S = pass_len;                   // Кол-во столбцов таблицы
+            char[,] ctable = new char[R, S]; // Таблица для перекодировки с закодированной строкой
+            Dictionary<char, int> key = new Dictionary<char, int>();
+            // Инициализируем словарь перестановки по ключу:
+            for (int i = 0; i < pass_len; i++)
+                key[pass[i]] = i;
+            var key_char_list = key.Keys.ToList(); // Получаем список символов в ключевой строке
+            key_char_list.Sort(); // и сортируем его
+#if DEBUG // Log--->
+            foreach (var ch in key_char_list)
+                textLog.Text += ch + "(" + key[ch] + ") ";
+            textLog.Text += Environment.NewLine;
+#endif// <---
+            int idx;
+            // Заполняем таблицу с закодированным текстом построчно
+            for (int i = 0; i < R; i++)
+                for (int j = 0; j < S; j++)
+                {
+                    idx = i * S + j;
+                    if (idx < str.Length)
+                        ctable[i, j] = str[idx];
+                    else
+                        //ctable[i, j] = ' ';
+                        continue;
+                }
+#if DEBUG// Log--->
+            for (int i = 0; i < R; i++)
+            {
+                for (int j = 0; j < S; j++)
+                    textLog.Text += ctable[i, j] + "|";
+                textLog.Text += Environment.NewLine;
+            }
+#endif // <--
+            string res = "";
+            // Теперь считывем расшифрованное сообщение в порядке колонок отсортированного ключа:
+            foreach (var ch in key_char_list)
+                for (int i = 0; i < R; i++)
+                    res += ctable[i, key[ch]];
             return res;
         }
 
         private void btnEncrypt_Click(object sender, EventArgs e)
         {
-            textBox2.Text = EncodeASSC(textBox1.Text);
+            //textBox2.Text = EncodeASSC(textBox1.Text);
+            textBox2.Text = EncodeCTSCh(textBox1.Text, "ПАР");
         }
 
         private void btnDecrypt_Click(object sender, EventArgs e)
         {
-            textBox2.Text = DecodeASSC(textBox1.Text);
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
+            //textBox2.Text = DecodeASSC(textBox1.Text);
+            textBox2.Text = DecodeCTSCh(textBox1.Text, "ПАР");
         }
 
         private void btnInit_Click(object sender, EventArgs e)

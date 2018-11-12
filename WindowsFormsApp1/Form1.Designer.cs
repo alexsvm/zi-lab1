@@ -85,7 +85,7 @@
             // 
             // edA
             // 
-            this.edA.Location = new System.Drawing.Point(41, 326);
+            this.edA.Location = new System.Drawing.Point(32, 197);
             this.edA.Minimum = new decimal(new int[] {
             1,
             0,
@@ -104,7 +104,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label1.Location = new System.Drawing.Point(18, 328);
+            this.label1.Location = new System.Drawing.Point(9, 199);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(19, 13);
             this.label1.TabIndex = 6;
@@ -114,7 +114,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label2.Location = new System.Drawing.Point(98, 328);
+            this.label2.Location = new System.Drawing.Point(89, 199);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(19, 13);
             this.label2.TabIndex = 8;
@@ -122,7 +122,7 @@
             // 
             // edK
             // 
-            this.edK.Location = new System.Drawing.Point(118, 326);
+            this.edK.Location = new System.Drawing.Point(109, 197);
             this.edK.Minimum = new decimal(new int[] {
             1,
             0,
@@ -167,7 +167,7 @@
             // 
             // btnInit
             // 
-            this.btnInit.Location = new System.Drawing.Point(21, 390);
+            this.btnInit.Location = new System.Drawing.Point(12, 245);
             this.btnInit.Name = "btnInit";
             this.btnInit.Size = new System.Drawing.Size(75, 23);
             this.btnInit.TabIndex = 13;
@@ -182,6 +182,7 @@
             this.textLog.Location = new System.Drawing.Point(3, 16);
             this.textLog.Multiline = true;
             this.textLog.Name = "textLog";
+            this.textLog.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.textLog.Size = new System.Drawing.Size(995, 198);
             this.textLog.TabIndex = 14;
             // 

@@ -33,6 +33,7 @@ namespace WindowsFormsApp1
             InitializeComponent();
         }
 
+        //===================================================================================================
         // Функция вычисляющяя НОД двух чисел
         public int GetNOD(int val1, int val2)
         {
@@ -42,6 +43,7 @@ namespace WindowsFormsApp1
                 return GetNOD(val2, val1 % val2);
         }
 
+        //===================================================================================================
         private bool ValidateASSCKeys() // Проверка:  0 ≤ (A, J)≤ (M-1),  0 ≤ K ≤ (M-1),  НОД (A, M)=1
         { //A, K, M
             Hint.Hide(edA);
@@ -65,6 +67,7 @@ namespace WindowsFormsApp1
             return true;
         }
 
+        //===================================================================================================
         // Инициализируем A, K, M
         public void Init()
         {
@@ -103,6 +106,7 @@ namespace WindowsFormsApp1
 #endif
         }
 
+        //===================================================================================================
         private string EncodeASSC(string str) // Кодирование
         {
             string res = "";
@@ -115,6 +119,7 @@ namespace WindowsFormsApp1
             return res;
         }
 
+        //===================================================================================================
         private string DecodeASSC(string str) // Декодирование
         {
             string res = "";
@@ -127,6 +132,7 @@ namespace WindowsFormsApp1
             return res;
         }
 
+        //===================================================================================================
         // Кодирование по методу шифрующих таблиц с одиночной перестановкой по ключу
         private string EncodeCTSCh(string str, string pass) 
         {
@@ -154,8 +160,8 @@ namespace WindowsFormsApp1
                     if (idx < str.Length)
                         ctable[i, j] = str[idx];
                     else
-                        //ctable[i, j] = ' ';
-                        continue;
+                        ctable[i, j] = (char)254;
+                        //continue;
                 }
 #if DEBUG// Log--->
             for (int i = 0; i < R; i++)
@@ -173,6 +179,7 @@ namespace WindowsFormsApp1
             return res;
         }
 
+        //===================================================================================================
         // Декодирование по методу шифрующих таблиц с одиночной перестановкой по ключу
         private string DecodeCTSCh(string str, string pass)
         {
@@ -185,7 +192,7 @@ namespace WindowsFormsApp1
             for (int i = 0; i < pass_len; i++)
                 key[pass[i]] = i;
             var key_char_list = key.Keys.ToList(); // Получаем список символов в ключевой строке
-            key_char_list.Sort(); // и сортируем его
+            //key_char_list.Sort(); // и сортируем его
 #if DEBUG // Log--->
             foreach (var ch in key_char_list)
                 textLog.Text += ch + "(" + key[ch] + ") ";
@@ -200,8 +207,8 @@ namespace WindowsFormsApp1
                     if (idx < str.Length)
                         ctable[i, j] = str[idx];
                     else
-                        //ctable[i, j] = ' ';
-                        continue;
+                        ctable[i, j] = (char)254;
+                        //continue;
                 }
 #if DEBUG// Log--->
             for (int i = 0; i < R; i++)
@@ -213,24 +220,32 @@ namespace WindowsFormsApp1
 #endif // <--
             string res = "";
             // Теперь считывем расшифрованное сообщение в порядке колонок отсортированного ключа:
-            foreach (var ch in key_char_list)
+            //foreach (var ch in key_char_list)
+            //    for (int i = 0; i < R; i++)
+            //        res += ctable[i, key[ch]];
+            foreach (var pair in key.OrderByDescending(pair => pair.Value))
+            {
                 for (int i = 0; i < R; i++)
-                    res += ctable[i, key[ch]];
+                    res += ctable[i, pair.Value];
+            }
+
             return res;
         }
-
+        
+        //===================================================================================================
+        //===================================================================================================
         private void btnEncrypt_Click(object sender, EventArgs e)
         {
             //textBox2.Text = EncodeASSC(textBox1.Text);
-            //textBox2.Text = EncodeCTSCh(textBox1.Text, "ПАР");
-            textBox2.Text = EncodeCTSCh(EncodeASSC(textBox1.Text), edASSCkey.Text);
+            textBox2.Text = EncodeCTSCh(textBox1.Text, edASSCkey.Text);
+            //textBox2.Text = EncodeCTSCh(EncodeASSC(textBox1.Text), edASSCkey.Text);
         }
 
         private void btnDecrypt_Click(object sender, EventArgs e)
         {
             //textBox2.Text = DecodeASSC(textBox1.Text);
-            //textBox2.Text = DecodeCTSCh(textBox1.Text, "ПАР");
-            textBox2.Text = DecodeASSC(DecodeCTSCh(textBox1.Text, edASSCkey.Text));
+            textBox2.Text = DecodeCTSCh(textBox1.Text, edASSCkey.Text);
+            //textBox2.Text = DecodeASSC(DecodeCTSCh(textBox1.Text, edASSCkey.Text));
         }
 
         private void btnInit_Click(object sender, EventArgs e)

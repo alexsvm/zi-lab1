@@ -45,8 +45,8 @@
             this.Hint = new System.Windows.Forms.ToolTip(this.components);
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.label4 = new System.Windows.Forms.Label();
             this.edASSCkey = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             ((System.ComponentModel.ISupportInitialize)(this.edA)).BeginInit();
@@ -64,6 +64,7 @@
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(427, 20);
             this.textBox1.TabIndex = 0;
+            this.textBox1.Text = "АБВГДЕЁЖЗИЙКЛМНОП";
             // 
             // textBox2
             // 
@@ -187,8 +188,10 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox1.Controls.Add(this.textLog);
-            this.groupBox1.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.groupBox1.Location = new System.Drawing.Point(0, 390);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(1001, 246);
@@ -221,15 +224,6 @@
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Этап 2: Шифрующие таблицы с одиночной перестановкой по ключу";
             // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(14, 25);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(36, 13);
-            this.label4.TabIndex = 0;
-            this.label4.Text = "Ключ:";
-            // 
             // edASSCkey
             // 
             this.edASSCkey.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
@@ -238,6 +232,16 @@
             this.edASSCkey.Name = "edASSCkey";
             this.edASSCkey.Size = new System.Drawing.Size(371, 20);
             this.edASSCkey.TabIndex = 1;
+            this.edASSCkey.Text = "ШИФР";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(14, 25);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(36, 13);
+            this.label4.TabIndex = 0;
+            this.label4.Text = "Ключ:";
             // 
             // groupBox4
             // 

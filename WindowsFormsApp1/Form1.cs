@@ -107,6 +107,7 @@ namespace WindowsFormsApp1
         }
 
         //===================================================================================================
+        // Кодируем при помощи аффинной системы подстановок Цезаря
         private string EncodeASSC(string str) // Кодирование
         {
             string res = "";
@@ -120,6 +121,7 @@ namespace WindowsFormsApp1
         }
 
         //===================================================================================================
+        // Декодируем при помощи аффинной системы подстановок Цезаря
         private string DecodeASSC(string str) // Декодирование
         {
             string res = "";
@@ -188,10 +190,12 @@ namespace WindowsFormsApp1
             int S = pass_len;                   // Кол-во столбцов таблицы
             char[,] ctable = new char[R, S]; // Таблица для перекодировки с закодированной строкой
             Dictionary<char, int> key = new Dictionary<char, int>();
-            // Инициализируем словарь перестановки по ключу:
+            // Инициализируем словарь обратной перестановки по ключу:
+            var key_char_list = pass;
+            pass = string.Concat(pass.OrderBy(x => x).ToArray());
             for (int i = 0; i < pass_len; i++)
                 key[pass[i]] = i;
-            var key_char_list = key.Keys.ToList(); // Получаем список символов в ключевой строке
+            //var key_char_list = key.Keys.ToList(); // Получаем список символов в ключевой строке
             //key_char_list.Sort(); // и сортируем его
 #if DEBUG // Log--->
             foreach (var ch in key_char_list)
@@ -220,15 +224,14 @@ namespace WindowsFormsApp1
 #endif // <--
             string res = "";
             // Теперь считывем расшифрованное сообщение в порядке колонок отсортированного ключа:
-            //foreach (var ch in key_char_list)
-            //    for (int i = 0; i < R; i++)
-            //        res += ctable[i, key[ch]];
-            foreach (var pair in key.OrderByDescending(pair => pair.Value))
-            {
+            foreach (var ch in key_char_list)
                 for (int i = 0; i < R; i++)
-                    res += ctable[i, pair.Value];
-            }
-
+                {
+                    char c = ctable[i, key[ch]];
+                    if (c != (char)254)
+                        res += c;
+                }
+  
             return res;
         }
         
@@ -237,15 +240,15 @@ namespace WindowsFormsApp1
         private void btnEncrypt_Click(object sender, EventArgs e)
         {
             //textBox2.Text = EncodeASSC(textBox1.Text);
-            textBox2.Text = EncodeCTSCh(textBox1.Text, edASSCkey.Text);
-            //textBox2.Text = EncodeCTSCh(EncodeASSC(textBox1.Text), edASSCkey.Text);
+            //textBox2.Text = EncodeCTSCh(textBox1.Text, edASSCkey.Text);
+            textBox2.Text = EncodeCTSCh(EncodeASSC(textBox1.Text), edASSCkey.Text);
         }
 
         private void btnDecrypt_Click(object sender, EventArgs e)
         {
             //textBox2.Text = DecodeASSC(textBox1.Text);
-            textBox2.Text = DecodeCTSCh(textBox1.Text, edASSCkey.Text);
-            //textBox2.Text = DecodeASSC(DecodeCTSCh(textBox1.Text, edASSCkey.Text));
+            //textBox2.Text = DecodeCTSCh(textBox1.Text, edASSCkey.Text);
+            textBox2.Text = DecodeASSC(DecodeCTSCh(textBox1.Text, edASSCkey.Text));
         }
 
         private void btnInit_Click(object sender, EventArgs e)
